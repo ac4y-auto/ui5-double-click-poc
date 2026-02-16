@@ -2,37 +2,37 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CDN mód (SAPUI5 CDN)",
+            "name": "Local mód (fiori run)",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:8200/index.html?env=cdn",
+            "url": "http://localhost:8200/index.html",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "serve:cdn",
+            "preLaunchTask": "serve:local",
             "runtimeArgs": ["--auto-open-devtools-for-tabs"]
         },
         {
-            "name": "Local mód (ui5 serve)",
+            "name": "CDN mód (SAPUI5 CDN)",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:8200/index.html?env=local",
+            "url": "http://localhost:8200/index.html",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "serve:local",
+            "preLaunchTask": "serve:cdn",
             "runtimeArgs": ["--auto-open-devtools-for-tabs"]
         },
         {
             "name": "Backend mód (direkt)",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:8200/index.html?env=backend",
+            "url": "http://localhost:8200/index.html",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "serve:backend",
             "runtimeArgs": ["--auto-open-devtools-for-tabs"]
         },
         {
-            "name": "Hybrid mód (proxy → backend)",
+            "name": "Hybrid mód (local UI5 + backend proxy)",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:8200/index.html?env=hybrid",
+            "url": "http://localhost:8200/index.html",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "serve:hybrid",
             "runtimeArgs": ["--auto-open-devtools-for-tabs"]

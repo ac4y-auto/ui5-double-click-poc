@@ -1,19 +1,31 @@
 {
   "name": "ui5-double-click-poc",
-  "version": "2.0.0",
-  "description": "SAPUI5 POC for double-click editable input - hybrid runner",
+  "version": "3.0.0",
+  "description": "SAPUI5 POC for double-click editable input — fiori-tools-proxy",
   "scripts": {
-    "start": "npx ui5 serve --port 8200 --open index.html",
-    "start:cdn": "npx http-server -p 8200 -o index.html?env=cdn",
-    "start:local": "npx ui5 serve --port 8200 --open index.html?env=local",
-    "start:backend": "npx http-server -p 8200 -o index.html?env=backend",
-    "start:hybrid": "npx ui5 serve --port 8200 --config ui5-backend.yaml --open index.html?env=hybrid"
+    "start": "npx fiori run --port 8200 --open index.html",
+    "start:local": "npx fiori run --port 8200 --open index.html",
+    "start:cdn": "npx fiori run --port 8200 --config ui5-cdn.yaml --open index.html",
+    "start:backend": "npx fiori run --port 8200 --config ui5-backend.yaml --open index.html",
+    "start:hybrid": "npx fiori run --port 8200 --config ui5-hybrid.yaml --open index.html",
+    "smart-start": "node start.js",
+    "smart-start:local": "node start.js",
+    "smart-start:cdn": "node start.js ui5-cdn.yaml",
+    "smart-start:backend": "node start.js ui5-backend.yaml",
+    "smart-start:hybrid": "node start.js ui5-hybrid.yaml",
+    "purge": "node purge.js"
   },
+  "keywords": [
+    "ui5",
+    "double-click",
+    "sapui5",
+    "sap",
+    "fiori"
+  ],
+  "author": "ac4y",
+  "license": "MIT",
   "devDependencies": {
-    "@ui5/cli": "^3.0.0",
-    "ui5-middleware-simpleproxy": "^0.9.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "@sap/ux-ui5-tooling": "^1.20.2",
+    "@ui5/cli": "^4.0.43"
+  }
 }

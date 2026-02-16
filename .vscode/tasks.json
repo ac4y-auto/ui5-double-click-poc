@@ -2,16 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "serve:cdn",
+            "label": "serve:local",
             "type": "shell",
-            "command": "npx http-server -p 8200",
+            "command": "node start.js",
             "isBackground": true,
             "problemMatcher": {
                 "pattern": { "regexp": "^$" },
                 "background": {
                     "activeOnStart": true,
-                    "beginsPattern": "^(Starting up|Hit CTRL)",
-                    "endsPattern": "^(Available on|Hit CTRL)"
+                    "beginsPattern": "^(🚀|Starting)",
+                    "endsPattern": "^(server started|✅|URL: http)"
                 }
             },
             "presentation": {
@@ -21,16 +21,16 @@
             }
         },
         {
-            "label": "serve:local",
-            "type": "npm",
-            "script": "start:local",
+            "label": "serve:cdn",
+            "type": "shell",
+            "command": "node start.js ui5-cdn.yaml",
             "isBackground": true,
             "problemMatcher": {
                 "pattern": { "regexp": "^$" },
                 "background": {
                     "activeOnStart": true,
-                    "beginsPattern": "^(Starting up|Server started)",
-                    "endsPattern": "^(Available on|URL: http)"
+                    "beginsPattern": "^(🚀|Starting)",
+                    "endsPattern": "^(server started|✅|URL: http)"
                 }
             },
             "presentation": {
@@ -42,14 +42,14 @@
         {
             "label": "serve:backend",
             "type": "shell",
-            "command": "npx http-server -p 8200",
+            "command": "node start.js ui5-backend.yaml",
             "isBackground": true,
             "problemMatcher": {
                 "pattern": { "regexp": "^$" },
                 "background": {
                     "activeOnStart": true,
-                    "beginsPattern": "^(Starting up|Hit CTRL)",
-                    "endsPattern": "^(Available on|Hit CTRL)"
+                    "beginsPattern": "^(🚀|Starting)",
+                    "endsPattern": "^(server started|✅|URL: http)"
                 }
             },
             "presentation": {
@@ -60,15 +60,15 @@
         },
         {
             "label": "serve:hybrid",
-            "type": "npm",
-            "script": "start:hybrid",
+            "type": "shell",
+            "command": "node start.js ui5-hybrid.yaml",
             "isBackground": true,
             "problemMatcher": {
                 "pattern": { "regexp": "^$" },
                 "background": {
                     "activeOnStart": true,
-                    "beginsPattern": "^(Starting up|Server started)",
-                    "endsPattern": "^(Available on|URL: http)"
+                    "beginsPattern": "^(🚀|Starting)",
+                    "endsPattern": "^(server started|✅|URL: http)"
                 }
             },
             "presentation": {

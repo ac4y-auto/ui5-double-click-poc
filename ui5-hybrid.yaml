@@ -6,6 +6,14 @@ resources:
   configuration:
     paths:
       webapp: "."
+framework:
+  name: SAPUI5
+  version: "1.105.0"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.ui.layout
+    - name: themelib_sap_horizon
 server:
   customMiddleware:
     - name: fiori-tools-proxy
@@ -13,8 +21,4 @@ server:
       configuration:
         backend:
           - path: /sap
-            url: http://192.168.1.10:9000
-          - path: /resources
-            url: http://192.168.1.10:9000
-          - path: /test-resources
             url: http://192.168.1.10:9000
