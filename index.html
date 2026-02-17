@@ -18,147 +18,21 @@
 <body class="sapUiBody" id="content">
 
 <script>
-    /**
-     * Fő alkalmazás inicializálás
-     * A YAML config határozza meg a UI5 source-t (fiori-tools-proxy)
-     */
     sap.ui.require([
         "sap/m/App",
         "sap/m/Page",
-        "sap/m/IconTabBar",
-        "sap/m/IconTabFilter",
-        "sap/m/Table",
-        "sap/m/Column",
-        "sap/m/ColumnListItem",
         "sap/m/Input",
         "sap/m/Text",
         "sap/m/Title",
-        "sap/m/Label",
         "sap/m/VBox",
         "sap/m/HBox",
         "sap/m/Button",
         "sap/m/Toolbar",
-        "sap/m/ToolbarSpacer",
-        "sap/m/MessageToast",
-        "sap/m/MessageStrip",
-        "sap/ui/model/json/JSONModel"
-    ], function (App, Page, IconTabBar, IconTabFilter, Table, Column, ColumnListItem,
-                 Input, Text, Title, Label, VBox, HBox, Button, Toolbar, ToolbarSpacer,
-                 MessageToast, MessageStrip, JSONModel) {
+        "sap/m/MessageToast"
+    ], function (App, Page, Input, Text, Title, VBox, HBox, Button, Toolbar, MessageToast) {
 
         // =============================================
-        // KÖRNYEZET INFO TOOLBAR
-        // =============================================
-        var oToolbar = new Toolbar({
-            content: [
-                new Text({ text: "SAPUI5 v" + sap.ui.version })
-            ]
-        });
-
-        // =============================================
-        // TAB 1: DUPLA-KATTINTÁSOS INPUT DEMO
-        // =============================================
-        var clickTracking = {};
-        var clickTimeout = 500;
-
-        function handleInputPress(oEvent) {
-            var oInput = oEvent.getSource();
-            var sInputId = oInput.getId();
-
-            if (!clickTracking[sInputId]) {
-                clickTracking[sInputId] = { count: 0, timeout: null };
-            }
-
-            var oTracking = clickTracking[sInputId];
-            if (oTracking.timeout) {
-                clearTimeout(oTracking.timeout);
-            }
-
-            oTracking.count++;
-
-            if (oTracking.count === 1) {
-                MessageToast.show("Első kattintás - kattints még egyszer!");
-                oInput.addStyleClass("sapUiHighlight");
-
-                oTracking.timeout = setTimeout(function () {
-                    oTracking.count = 0;
-                    oInput.removeStyleClass("sapUiHighlight");
-                }, clickTimeout);
-
-            } else if (oTracking.count === 2) {
-                MessageToast.show("Szerkeszthető mód!");
-                oInput.setEditable(true);
-                oInput.removeStyleClass("sapUiHighlight");
-
-                setTimeout(function () {
-                    oInput.focus();
-                    var oDomRef = oInput.getDomRef("inner");
-                    if (oDomRef && oDomRef.select) {
-                        oDomRef.select();
-                    }
-                }, 50);
-
-                oTracking.count = 0;
-                clearTimeout(oTracking.timeout);
-
-                oInput.attachBrowserEvent("blur", function () {
-                    oInput.setEditable(false);
-                    MessageToast.show("Mező védve");
-                });
-            }
-        }
-
-        var oTableModel = new JSONModel({
-            items: [
-                { name: "Első elem", value: "100", description: "Dupla kattintással szerkeszthető" },
-                { name: "Második elem", value: "200", description: "Védett adat" },
-                { name: "Harmadik elem", value: "300", description: "Próbáld ki!" },
-                { name: "Negyedik elem", value: "400", description: "500ms timeout" }
-            ]
-        });
-
-        var oTable = new Table({
-            headerText: "Védett adatok - Kattints kétszer az Érték mezőre!",
-            columns: [
-                new Column({ header: new Text({ text: "Név" }), width: "25%" }),
-                new Column({ header: new Text({ text: "Érték (2x katt)" }), width: "25%" }),
-                new Column({ header: new Text({ text: "Leírás" }), width: "50%" })
-            ]
-        });
-
-        oTable.setModel(oTableModel);
-        oTable.bindItems({
-            path: "/items",
-            template: new ColumnListItem({
-                cells: [
-                    new Text({ text: "{name}" }),
-                    new Input({
-                        value: "{value}",
-                        editable: false,
-                        width: "100%",
-                        press: handleInputPress
-                    }),
-                    new Text({ text: "{description}" })
-                ]
-            })
-        });
-
-        var oDoubleClickTab = new VBox({
-            class: "sapUiSmallMargin",
-            items: [
-                new Title({ text: "Használat:", level: "H3" }),
-                new Text({
-                    text: "1. Kattints EGYSZER -> Highlight\n" +
-                          "2. Kattints MÉG EGYSZER (500ms-en belül) -> Szerkeszthető\n" +
-                          "3. Kattints ki -> Read-only",
-                    renderWhitespace: true
-                }).addStyleClass("sapUiSmallMarginBottom"),
-                oTable
-            ]
-        });
-
-        // =============================================
-        // TAB 2: VONALKÓD MEGERŐSÍTÉS DEMO
+        // VONALKÓD KÉTLÉPCSŐS MEGERŐSÍTÉS
         // =============================================
         var STATE = { IDLE: "IDLE", PENDING: "PENDING", CONFIRMED: "CONFIRMED", ERROR: "ERROR" };
         var barcodeState = STATE.IDLE;
@@ -242,7 +116,7 @@
             }
         });
 
-        var oBarcodeTab = new VBox({
+        var oContent = new VBox({
             alignItems: "Center",
             items: [
                 new Title({ text: "Vonalkód Kétlépcsős Megerősítés", level: "H3" })
@@ -282,62 +156,15 @@
             ]
         }).addStyleClass("sapUiMediumMargin");
 
-        // =============================================
-        // TAB 3: COMPONENT ALAPÚ (MVC)
-        // =============================================
-        var oComponentTab = new VBox({
-            class: "sapUiSmallMargin",
-            items: [
-                new MessageStrip({
-                    text: "A Component alapú futtatáshoz használd: npm run smart-start módot, " +
-                          "majd navigálj a /test/component.html-re.",
-                    type: "Warning",
-                    showIcon: true
-                }),
-                new Text({
-                    text: "A Component.js + manifest.json + MVC struktúra (view/Main.view.xml, controller/Main.controller.js) " +
-                          "továbbra is elérhető a projektben, de ez az index.html a standalone demókat szolgálja ki."
-                }).addStyleClass("sapUiSmallMarginTop")
-            ]
-        });
-
-        // =============================================
-        // ICON TAB BAR
-        // =============================================
-        var oIconTabBar = new IconTabBar({
-            expanded: true,
-            items: [
-                new IconTabFilter({
-                    text: "Dupla-kattintás",
-                    icon: "sap-icon://touch",
-                    content: [oDoubleClickTab]
-                }),
-                new IconTabFilter({
-                    text: "Vonalkód",
-                    icon: "sap-icon://bar-code",
-                    content: [oBarcodeTab]
-                }),
-                new IconTabFilter({
-                    text: "Component (MVC)",
-                    icon: "sap-icon://developer-settings",
-                    content: [oComponentTab]
-                })
-            ]
-        });
-
-        // =============================================
-        // FŐ OLDAL
-        // =============================================
         var oPage = new Page({
             title: "UI5 Double-Click POC",
-            subHeader: oToolbar,
-            content: [oIconTabBar]
+            subHeader: new Toolbar({
+                content: [new Text({ text: "SAPUI5 v" + sap.ui.version })]
+            }),
+            content: [oContent]
         });
 
-        var oApp = new App({ pages: [oPage] });
-        oApp.placeAt("content");
-
-        MessageToast.show("App betöltve — SAPUI5 v" + sap.ui.version);
+        new App({ pages: [oPage] }).placeAt("content");
     });
 </script>
 </body>
