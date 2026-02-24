@@ -200,23 +200,19 @@ csak a kontroller módosítása szükséges — az a–e pontok.
 
 ## Állapotgép
 
-```
-┌─────────┐  scan(bármi)  ┌───────────┐
-│  IDLE   │──────────────→│  PENDING  │ ← sárga
-└─────────┘               └─────┬─────┘
-     ↑                          │
-     │                 scan(ugyanaz)   scan(eltérő)
-     │                          │            │
-     │                    ┌─────▼────┐  ┌────▼────┐
-     │     2s auto-reset  │CONFIRMED │  │  ERROR  │ ← piros + alarm
-     └────────────────────│  (zöld)  │  └────┬────┘
-                          └──────────┘       │
-                                        MessageBox bezárás
-                                             │
-                                    ┌────────▼────────┐
-                                    │ reset-to-idle   │ → IDLE  (default)
-                                    │ reset-to-pending│ → PENDING
-                                    └─────────────────┘
+```mermaid
+stateDiagram-v2
+    [*] --> IDLE
+
+    IDLE --> PENDING : Első scan – Sárga háttér
+    PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
+    PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
+
+    CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+
+    ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
+    ERROR --> PENDING : MessageBox bezárása (reset-to-pending)
 ```
 
 **CONFIRMED állapotban újabb scan:**

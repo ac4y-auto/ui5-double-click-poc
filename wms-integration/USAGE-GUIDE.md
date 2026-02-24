@@ -11,14 +11,67 @@
 Egy kontrollerben a `ScanConfirmHelper` példány kezeli a vonalkód scan eventeket.
 Minden mező saját független állapotgéppel rendelkezik:
 
-```
-IDLE → (1. scan) → PENDING (sárga) → (ugyanaz) → CONFIRMED (zöld) → 2s → IDLE
-                                   → (eltérő)  → ERROR (piros + alarm téma)
+```mermaid
+stateDiagram-v2
+    [*] --> IDLE
+
+    IDLE --> PENDING : Első scan – Sárga háttér
+    PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
+    PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
+
+    CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+
+    ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
+    ERROR --> PENDING : MessageBox bezárása (reset-to-pending)
 ```
 
 ERROR esetén `MessageBox.error` jelenik meg. Bezáráskor a viselkedés a konfigurációtól függ:
 - `"reset-to-idle"` → teljesen nullázódik (első scan is elveszik)
 - `"reset-to-pending"` → visszamegy PENDING-re (első scan megmarad)
+
+### Szekvencia diagram
+
+```mermaid
+sequenceDiagram
+    actor U as Felhasználó
+    participant S as Scanner
+    participant C as Controller
+    participant V as VirtualThemeManager
+    participant UI as UI (Mező)
+
+    Note over U,UI: 1. lépés – Első scan
+    U->>S: Vonalkód beolvasás (ABC123)
+    S->>C: onScanFieldSuccess("ABC123")
+    C->>C: state: IDLE → PENDING
+    C->>UI: addStyleClass("scanConfirmPending")
+    UI-->>U: Sárga háttér
+    C-->>U: MessageToast "Olvasd be újra!"
+
+    Note over U,UI: 2a. Sikeres megerősítés
+    U->>S: Vonalkód beolvasás (ABC123)
+    S->>C: onScanFieldSuccess("ABC123")
+    C->>C: state: PENDING → CONFIRMED
+    C->>UI: addStyleClass("scanConfirmOk")
+    UI-->>U: Zöld háttér
+    C-->>U: MessageToast "Megerősítve!"
+    C->>C: _applyScannedFieldValue()
+    Note over C: 2 mp után auto-reset IDLE-ra
+
+    Note over U,UI: 2b. Sikertelen (eltérő kód)
+    U->>S: Vonalkód beolvasás (XYZ789)
+    S->>C: onScanFieldSuccess("XYZ789")
+    C->>C: state: PENDING → ERROR
+    C->>UI: addStyleClass("scanConfirmError")
+    C->>V: switchTheme("alarm")
+    V-->>UI: Piros téma
+    C-->>U: MessageBox.error "Nem egyező!"
+    U->>C: OK (bezárás)
+    C->>V: switchTheme("normal")
+    C->>C: _resetScanFieldState() → IDLE
+    C->>UI: CSS osztályok törölve
+    UI-->>U: Fehér háttér (újrakezdhető)
+```
 
 ---
 

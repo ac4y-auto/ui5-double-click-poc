@@ -9,9 +9,19 @@
 Kétlépcsős vonalkód megerősítés SAPUI5-ben. Ugyanazt a kódot kell kétszer beolvasni a
 művelet jóváhagyásához.
 
-```
-IDLE → (1. scan) → PENDING (sárga) → (ugyanaz) → CONFIRMED (zöld) → 2s → IDLE
-                                   → (eltérő)  → ERROR (piros + alarm)
+```mermaid
+stateDiagram-v2
+    [*] --> IDLE
+
+    IDLE --> PENDING : Első scan – Sárga háttér
+    PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
+    PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
+
+    CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+
+    ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
+    ERROR --> PENDING : MessageBox bezárása (reset-to-pending)
 ```
 
 ---
