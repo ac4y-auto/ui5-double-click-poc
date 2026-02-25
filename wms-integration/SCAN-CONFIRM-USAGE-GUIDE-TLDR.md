@@ -1,6 +1,6 @@
 # ScanConfirmHelper — Használat TL;DR
 
-> Gyors referencia. Teljes verzió: [USAGE-GUIDE.md](USAGE-GUIDE.md) | Beépítés: [INTEGRATION-GUIDE.md](INTEGRATION-GUIDE.md)
+> Gyors referencia. Teljes verzió: [SCAN-CONFIRM-USAGE-GUIDE.md](SCAN-CONFIRM-USAGE-GUIDE.md) | Beépítés: [SCAN-CONFIRM-INTEGRATION-GUIDE.md](SCAN-CONFIRM-INTEGRATION-GUIDE.md)
 
 ---
 

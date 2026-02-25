@@ -2,7 +2,7 @@
 
 > A ScanConfirmHelper már be van építve a projektbe. Ez a dokumentum a napi használathoz
 > szükséges tudnivalókat tartalmazza.
-> Beépítéshez / portoláshoz lásd: [INTEGRATION-GUIDE.md](INTEGRATION-GUIDE.md)
+> Beépítéshez / portoláshoz lásd: [SCAN-CONFIRM-INTEGRATION-GUIDE.md](SCAN-CONFIRM-INTEGRATION-GUIDE.md)
 
 ---
 

@@ -1,6 +1,6 @@
 # ScanConfirmHelper — TL;DR
 
-> Gyors referencia. Teljes verzió: [INTEGRATION-GUIDE.md](INTEGRATION-GUIDE.md)
+> Gyors referencia. Teljes verzió: [SCAN-CONFIRM-INTEGRATION-GUIDE.md](SCAN-CONFIRM-INTEGRATION-GUIDE.md)
 
 ---
 
