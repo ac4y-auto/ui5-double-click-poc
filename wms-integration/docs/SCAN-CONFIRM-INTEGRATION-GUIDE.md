@@ -39,8 +39,8 @@ Egyetlen téves vonalkód beolvasás hibás raktárhelyet, mennyiséget, vagy t�
 
 A **kétlépcsős megerősítés** ezt akadályozza meg:
 
-- **Első scan**: az Input mező PENDING állapotba kerül (sárga vizuális jelzés), a rendszer
-  eltárolja a beolvasott kódot és várakozik a megerősítésre
+- **Első scan**: az Input mező PENDING állapotba kerül (sárga vizuális jelzés), a beolvasott
+  vonalkód értéke megjelenik a mezőben, a rendszer eltárolja a kódot és várakozik a megerősítésre
 - **Második scan (ugyanaz a kód)**: CONFIRMED → az üzleti logika lefut
 - **Második scan (eltérő kód)**: ERROR → alarm téma + hibaüzenet, majd reset
 
@@ -48,7 +48,7 @@ A mechanizmus **nincs időkorláthoz kötve** PENDING állapotban — a felhaszn
 ideig ellenőrizheti a mezőt megerősítés előtt.
 
 ```
-IDLE → (1. scan) → PENDING (sárga)
+IDLE → (1. scan) → PENDING (sárga, érték megjelenik a mezőben)
                        → (ugyanaz)  → CONFIRMED (zöld) → 2s → IDLE
                        → (eltérő)   → ERROR (piros) → MessageBox bezárás → IDLE / PENDING
 ```
@@ -188,7 +188,7 @@ private async _applyScannedFieldValue(
 - [ ] Controller – `new ScanConfirmHelper(...)` hívás az `onInit()`-ben
 - [ ] Controller – `onScanFieldSuccess()` delegál a `_scanConfirm.handleScan()`-ra
 - [ ] Controller – `_applyScannedFieldValue()` implementálva (üzleti logika)
-- [ ] Teszt: első scan → sárga mező + toast, második (ugyanaz) → zöld + logika fut,
+- [ ] Teszt: első scan → sárga mező + érték megjelenik + toast, második (ugyanaz) → zöld + logika fut,
   második (eltérő) → piros + alarm téma + MessageBox
 
 ### Már integrált projektben (nincs setup)
@@ -204,12 +204,12 @@ csak a kontroller módosítása szükséges — az a–e pontok.
 stateDiagram-v2
     [*] --> IDLE
 
-    IDLE --> PENDING : Első scan – Sárga háttér
+    IDLE --> PENDING : Első scan – Sárga háttér + érték megjelenik
     PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
     PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
 
     CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
-    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér + érték megjelenik
 
     ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
     ERROR --> PENDING : MessageBox bezárása (reset-to-pending)

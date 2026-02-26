@@ -16,6 +16,7 @@ A funkció célja egy **hibamegelőzési mechanizmus** biztosítása raktári m�
 **Mi történik:**
 - Felhasználó beolvassa a vonalkód-olvasóval a tárhely/termék vonalkódot
 - Rendszer betölti és megjeleníti a kapcsolódó adatokat (tárhely információ, termék részletek, stb.)
+- **A beolvasott vonalkód értéke megjelenik az Input mezőben** — a felhasználó vizuálisan ellenőrizheti
 - Input mező **sárga háttérrel** jelzi: "Megerősítésre vár"
 - Toast üzenet: "Először beolvasva - olvasd be újra a megerősítéshez!"
 - Rendszer **várakozó/megerősítésre váró állapotba** kerül
@@ -50,6 +51,7 @@ A funkció célja egy **hibamegelőzési mechanizmus** biztosítása raktári m�
 - Placeholder: "Olvasd be a vonalkódot..."
 
 ### Első Beolvasás (Megerősítésre Vár)
+- **A beolvasott vonalkód értéke megjelenik a mezőben**
 - **Sárga háttér** (#fff3cd)
 - **Sárga keret** (2px solid #ffc107)
 - Toast: "Először beolvasva - olvasd be újra a megerősítéshez!"
@@ -72,6 +74,7 @@ Raktáros munkamenet:
 
 1. Raktáros bemegy a 'A-12-05' tárhelyre
 2. Beolvassa a tárhely vonalkódját (123456)
+   → Mezőben megjelenik: "123456"
    → Képernyőn megjelenik: "Tárhely: A-12-05, Kapacitás: 50 db"
    → Mező SÁRGA
 
@@ -122,6 +125,7 @@ VAGY
 - ✅ Vonalkód összehasonlítás
 - ✅ Várakozó állapot fenntartása időkorlát nélkül
 - ✅ Vizuális feedback minden állapothoz
+- ✅ Beolvasott érték megjelenítése PENDING állapotban (ellenőrzéshez)
 - ✅ Hibakezelés (rossz vonalkód újraolvasása)
 
 ## 📊 Állapotgép
@@ -138,7 +142,7 @@ VAGY
 
 ---
 
-**Verzió:** 1.0
-**Utolsó frissítés:** 2026-02-12
+**Verzió:** 1.1
+**Utolsó frissítés:** 2026-02-26
 **Státusz:** Specifikáció véglegesítve
 **Következő lépés:** Implementáció átírása az új specifikáció alapján

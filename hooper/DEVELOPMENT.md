@@ -165,7 +165,7 @@ var STATE = {
 ```
 [IDLE]
   ↓ 1. scan (barcode)
-[PENDING] (sárga)
+[PENDING] (sárga, beolvasott érték megjelenik a mezőben)
   ↓ 2. scan (ugyanaz a barcode)
 [CONFIRMED] (zöld) → 2mp után → [IDLE]
 
@@ -226,7 +226,7 @@ setTimeout(function() {
 
 1. Nyisd meg: http://localhost:8200/index.html
 2. **Első beolvasás:** Kattints a "Teszt: 123456" gombra
-   - ✅ Elvárt: Sárga háttér, toast üzenet
+   - ✅ Elvárt: Sárga háttér, beolvasott érték megjelenik a mezőben, toast üzenet
 3. **Második beolvasás (helyes):** Kattints újra a "Teszt: 123456" gombra
    - ✅ Elvárt: Zöld háttér, 2mp után reset
 4. **Második beolvasás (rossz):** Kattints a "Teszt: 789012" gombra (miután először 123456-ot olvastál be)
@@ -237,7 +237,7 @@ setTimeout(function() {
 1. Kattints az input mezőbe
 2. Írd be: `ABC123`
 3. Nyomj **ENTER**-t
-   - ✅ Sárga háttér
+   - ✅ Sárga háttér, mezőben megjelenik: "ABC123"
 4. Írd be újra: `ABC123`
 5. Nyomj **ENTER**-t
    - ✅ Zöld háttér, sikeres megerősítés
@@ -398,7 +398,7 @@ console.log("Last scanned:", lastScannedBarcode);
             ▼
      ┌──────────────┐
      │   PENDING    │ ◄────┐
-     │   (sárga)    │      │
+     │(sárga+érték) │      │
      └──┬───────┬───┘      │
         │       │          │
         │       │ scan(másik) → ERROR (piros)
@@ -415,7 +415,7 @@ console.log("Last scanned:", lastScannedBarcode);
 
 ---
 
-**Utolsó frissítés:** 2026-02-12
+**Utolsó frissítés:** 2026-02-26
 **Verzió:** 1.0
 **UI5 Verzió:** 1.105.0 (lokális, NPM)
 **Szerver:** http-server (port 8200)

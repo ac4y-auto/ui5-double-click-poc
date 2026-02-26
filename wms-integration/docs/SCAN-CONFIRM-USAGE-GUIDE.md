@@ -15,12 +15,12 @@ Minden mező saját független állapotgéppel rendelkezik:
 stateDiagram-v2
     [*] --> IDLE
 
-    IDLE --> PENDING : Első scan – Sárga háttér
+    IDLE --> PENDING : Első scan – Sárga háttér + érték megjelenik
     PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
     PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
 
     CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
-    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér + érték megjelenik
 
     ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
     ERROR --> PENDING : MessageBox bezárása (reset-to-pending)
@@ -45,7 +45,8 @@ sequenceDiagram
     S->>C: onScanFieldSuccess("ABC123")
     C->>C: state: IDLE → PENDING
     C->>UI: addStyleClass("scanConfirmPending")
-    UI-->>U: Sárga háttér
+    C->>UI: setValue("ABC123")
+    UI-->>U: Sárga háttér + érték megjelenik a mezőben
     C-->>U: MessageToast "Olvasd be újra!"
 
     Note over U,UI: 2a. Sikeres megerősítés
@@ -245,7 +246,7 @@ Nem szükséges try/catch a callbackbe — hacsak nem akarsz speciális hibakeze
 | Állapot | Input mező megjelenése | Jelentés |
 |---------|----------------------|----------|
 | `IDLE` | Normál | Várakozik az első scanre |
-| `PENDING` | Sárga háttér, amber keret | Első scan megvolt, megerősítés szükséges |
+| `PENDING` | Sárga háttér, amber keret, beolvasott érték megjelenik | Első scan megvolt, megerősítés szükséges |
 | `CONFIRMED` | Zöld háttér, zöld keret | Sikeres megerősítés, logika lefutott |
 | `ERROR` | Piros háttér, piros keret + alarm téma | Eltérő kód scannelve |
 

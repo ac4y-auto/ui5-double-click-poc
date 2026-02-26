@@ -100,6 +100,13 @@ export default class ScanConfirmHelper {
                     fieldState.state = "PENDING";
                     fieldState.lastBarcode = scannedBarcode;
                     this._setScanFieldVisual(strProp, "PENDING");
+
+                    // Beolvasott érték megjelenítése a mezőben (ellenőrzéshez)
+                    let oIdleInput = this._ctx.byId("id" + strProp) as Input;
+                    if (oIdleInput) {
+                        oIdleInput.setValue(scannedBarcode);
+                    }
+
                     MessageToast.show("Először beolvasva – olvasd be újra a megerősítéshez!");
                     break;
                 }
@@ -156,6 +163,13 @@ export default class ScanConfirmHelper {
                     fieldState.state = "PENDING";
                     fieldState.lastBarcode = scannedBarcode;
                     this._setScanFieldVisual(strProp, "PENDING");
+
+                    // Beolvasott érték megjelenítése a mezőben (ellenőrzéshez)
+                    let oConfInput = this._ctx.byId("id" + strProp) as Input;
+                    if (oConfInput) {
+                        oConfInput.setValue(scannedBarcode);
+                    }
+
                     MessageToast.show("Először beolvasva – olvasd be újra a megerősítéshez!");
                     break;
                 }

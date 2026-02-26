@@ -47,7 +47,7 @@ const bReady = this._scanConfirm.getState("FromWarehouse") === "CONFIRMED"
 | Állapot | Szín | Jelentés |
 |---------|------|----------|
 | `IDLE` | Normál | Vár az első scanre |
-| `PENDING` | 🟡 Sárga | Első scan megvolt, megerősítés kell |
+| `PENDING` | 🟡 Sárga + érték a mezőben | Első scan megvolt, megerősítés kell |
 | `CONFIRMED` | 🟢 Zöld | Sikeres, logika lefutott |
 | `ERROR` | 🔴 Piros + alarm téma | Eltérő kód érkezett |
 
@@ -56,6 +56,7 @@ const bReady = this._scanConfirm.getState("FromWarehouse") === "CONFIRMED"
 ## Tudnivalók
 
 - **Nincs időkorlát PENDING-ben** — szándékos
+- **PENDING-ben a beolvasott érték megjelenik a mezőben** — a felhasználó ellenőrizheti
 - **Egy helper, több mező** — minden `strProp` saját állapotgép
 - **Mező ID: `"id" + strProp`** — pl. `strProp = "FromWarehouse"` → `byId("idFromWarehouse")`
 - **`errorBehavior: "reset-to-pending"`** — hiba után az első scan megmarad

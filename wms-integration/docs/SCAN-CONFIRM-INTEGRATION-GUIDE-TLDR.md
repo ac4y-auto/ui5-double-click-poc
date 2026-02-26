@@ -13,12 +13,12 @@ művelet jóváhagyásához.
 stateDiagram-v2
     [*] --> IDLE
 
-    IDLE --> PENDING : Első scan – Sárga háttér
+    IDLE --> PENDING : Első scan – Sárga háttér + érték megjelenik
     PENDING --> CONFIRMED : Ugyanaz a vonalkód – Zöld háttér
     PENDING --> ERROR : Eltérő vonalkód – Piros háttér + Alarm téma
 
     CONFIRMED --> IDLE : 2 mp timeout – Háttér reset
-    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér
+    CONFIRMED --> PENDING : Új scan (másik kód) – Sárga háttér + érték megjelenik
 
     ERROR --> IDLE : MessageBox bezárása (reset-to-idle)
     ERROR --> PENDING : MessageBox bezárása (reset-to-pending)
@@ -96,4 +96,4 @@ A helper `byId("id" + strProp)`-pal éri el.
 - [ ] `ScanConfirmHelper.ts` → `webapp/m/`
 - [ ] CSS snippet → `webapp/css/style.css`
 - [ ] Controller: import, property, `new ScanConfirmHelper(...)`, scan handler, callback
-- [ ] Teszt: 1. scan → sárga, 2. scan (ugyanaz) → zöld + logika, 2. scan (eltérő) → piros + alarm
+- [ ] Teszt: 1. scan → sárga + érték megjelenik, 2. scan (ugyanaz) → zöld + logika, 2. scan (eltérő) → piros + alarm
